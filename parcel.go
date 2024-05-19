@@ -80,10 +80,10 @@ func (s ParcelStore) GetByClient(client int) ([]Parcel, error) {
 		defer parcelsByClient.Close()
 
 		res = append(res, p)
+	}
 
-		if err := parcelsByClient.Err(); err != nil {
-			return res, err
-		}
+	if err := parcelsByClient.Err(); err != nil {
+		return res, err
 	}
 
 	return res, nil
