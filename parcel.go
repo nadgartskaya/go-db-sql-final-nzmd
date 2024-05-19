@@ -1,9 +1,6 @@
 package main
 
-import (
-	"database/sql"
-	//"fmt"
-)
+import "database/sql"
 
 type ParcelStore struct {
 	db *sql.DB
@@ -50,7 +47,7 @@ func (s ParcelStore) Get(number int) (Parcel, error) {
 	err := getRow.Scan(&p.Number, &p.Client, &p.Status, &p.Address, &p.CreatedAt)
 
 	if err != nil {
-		return p, err
+		return Parcel{}, err
 	}
 
 	return p, nil
@@ -80,8 +77,13 @@ func (s ParcelStore) GetByClient(client int) ([]Parcel, error) {
 		if err != nil {
 			return res, err
 		}
+		defer parcelsByClient.Close()
 
 		res = append(res, p)
+
+		if err := parcelsByClient.Err(); err != nil {
+			return res, err
+		}
 	}
 
 	return res, nil

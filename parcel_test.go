@@ -48,7 +48,7 @@ func TestAddGetDelete(t *testing.T) {
 	parcel.Number, err = store.Add(parcel)
 
 	require.NoError(t, err)
-	require.NotEmpty(t, parcel.Number)
+	require.Positive(t, parcel.Number)
 
 	// get
 	// получите только что добавленную посылку, убедитесь в отсутствии ошибки
