@@ -69,6 +69,8 @@ func (s ParcelStore) GetByClient(client int) ([]Parcel, error) {
 		return res, err
 	}
 
+	defer parcelsByClient.Close()
+
 	for parcelsByClient.Next() {
 		p := Parcel{}
 
@@ -77,7 +79,6 @@ func (s ParcelStore) GetByClient(client int) ([]Parcel, error) {
 		if err != nil {
 			return res, err
 		}
-		defer parcelsByClient.Close()
 
 		res = append(res, p)
 	}
